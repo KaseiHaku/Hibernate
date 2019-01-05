@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+  
+    <!-- Database connection settings -->
+    <property name="connection.username">kasei</property>
+    <property name="connection.password">kasei</property>
+    <property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+    <property name="connection.url">jdbc:oracle:thin:@127.0.0.1:1521:XE</property>
+    
+    <!-- SQL dialect -->
+    <property name="dialect">org.hibernate.dialect.Oracle10gDialect</property>
+
+    <!-- 设定getCurrentSesison上下文，否则不能使用 getCurrentSession() 获取Session -->
+    <property name="current_session_context_class">thread</property>
+
+    <!-- Disable the second-level cache  -->
+    <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+	
+    <!-- Echo all executed SQL to stdout -->
+    <property name="show_sql">true</property>
+    <property name="format_sql">true</property>
+
+    <!-- Drop and re-create the database schema on startup -->
+    <property name="hbm2ddl.auto">create</property><!-- 值：validate,update,create,create-drop -->
+      
+        
+    <!-- Entity 配置 -->
+    <mapping resource="kasei/hibernate/hibernate.hbm.xml"/>
+    <mapping class="kasei.hibernate.HelloWorld"/>
+ 
+ 	<!-- ####################### XML ############################################ -->
+    <!-- ################ Entity Mapping  ################## -->
+    <mapping resource="kasei/hibernate/a01xml/b01orm/a01b01.hbm.xml"/>
+    <mapping class="kasei.hibernate.a01xml.b01orm.Dog"/>
+    <mapping class="kasei.hibernate.a01xml.b01orm.Cat"/>
+    
+    
+    <!-- ####################### Annotation ############################################## -->
+    <!-- ################ Entity Mapping  ################## -->
+    <mapping class="kasei.hibernate.a02anno.b01orm.Dog"/>
+    <mapping class="kasei.hibernate.a02anno.b01orm.Cat"/>
+    
+    <!-- ################ Relation Mapping  ################ -->
+    <!-- 一对一单向（121） -->
+    <mapping class="kasei.hibernate.a02anno.b02relationMap.c01single121fk.Husband"/>
+    <mapping class="kasei.hibernate.a02anno.b02relationMap.c01single121fk.Wife"/>
+    
+    <!-- 一对一双向（121） -->
+    <mapping class="kasei.hibernate.a02anno.b02relationMap.c02double121fk.Husband"/>
+    <mapping class="kasei.hibernate.a02anno.b02relationMap.c02double121fk.Wife"/>
+    
+    <!-- 一对一单向主键（121） -->
+    <mapping class="kasei.hibernate.a02anno.b02relationMap.c03single121pk.Husband"/>
+    <mapping class="kasei.hibernate.a02anno.b02relationMap.c03single121pk.Wife"/>
+      
+    <!-- 一对一双向主键（121） -->
+    <mapping class="kasei.hibernate.a02anno.b02relationMap.c04double121pk.Husband"/>
+    <mapping class="kasei.hibernate.a02anno.b02relationMap.c04double121pk.Wife"/>
+    
+    <!-- 一对一单向联合主键（121） -->
+    <mapping class="kasei.hibernate.a02anno.b02relationMap.c05compositeId121.Husband"/>
+    <mapping class="kasei.hibernate.a02anno.b02relationMap.c05compositeId121.Wife"/>
+    
+    <!-- 多对一单向（n21） -->
+    <mapping class="kasei.hibernate.a02anno.b02relationMap.c06singleN21.Group"/>
+    <mapping class="kasei.hibernate.a02anno.b02relationMap.c06singleN21.User"/>
+ 
+ 	<!-- 一对多单向 （12n）-->
+    <mapping class="kasei.hibernate.a02anno.b02relationMap.c07single12N.Group"/>
+    <mapping class="kasei.hibernate.a02anno.b02relationMap.c07single12N.User"/>
+ 	
+    <!-- 多对一，一对多双向（n21，12n） -->
+    <mapping class="kasei.hibernate.a02anno.b02relationMap.c08N21and12N.Group"/>
+    <mapping class="kasei.hibernate.a02anno.b02relationMap.c08N21and12N.User"/>
+    
+    <!-- 多对多双向（n2m） -->
+    <mapping class="kasei.hibernate.a02anno.b02relationMap.c09M2N.Teacher"/>
+    <mapping class="kasei.hibernate.a02anno.b02relationMap.c09M2N.Student"/>
+ 
+ 
+  </session-factory>
+</hibernate-configuration>
