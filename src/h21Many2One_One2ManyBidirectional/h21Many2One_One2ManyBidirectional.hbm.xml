@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding='utf-8'?>
+<!--
+  ~ Hibernate, Relational Persistence for Idiomatic Java
+  ~
+  ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+  ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+  -->
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="h21Many2One_One2ManyBidirectional">
+
+    <class name="H21Group" table="H21Group">
+        <id name="id" column="id"></id>
+		<property name="name" column="name"></property>
+		<set name="userSet">
+			<key column="groupId"></key><!-- 指定关联列的列名 -->
+			<one-to-many class="h20One2ManyUnidirectional.H20User"/>
+		</set>
+    </class>
+    
+    <class name="H21User" table="H21User">
+        <id name="id" column="id"></id>
+		<property name="name" column="name"></property>
+		<many-to-one name="group" column="groupXx"></many-to-one>
+    </class>
+
+</hibernate-mapping>
