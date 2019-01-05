@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding='utf-8'?>
+<!--
+  ~ Hibernate, Relational Persistence for Idiomatic Java
+  ~
+  ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+  ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+  -->
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="h08CoreAPI" >
+
+    <class name="H08Teacher" table="h08teacher" dynamic-update="true"><!-- dynamic-update=true设置只更新变动的 -->
+        <id name="id" column="id"></id><!-- name 对应类中字段  column对应数据库表列名  id标签代表数据库主键 -->
+		<property name="name" column="name"></property>
+		<property name="pet" column="pet"></property>
+		<property name="birthday" column="birthday"></property>
+    </class>
+
+</hibernate-mapping>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="kasei.hibernate.a01xml.b01orm">
+	
+	<class name="Dog" table="a01b01_Dog">
+		<!-- 单主键 -->
+        <id name="id" column="id"><!-- name 对应类中字段  column对应数据库表列名  id标签代表数据库主键 -->
+        	<!-- id 生成策略 -->
+        	<generator class="native"></generator> <!-- 自动处理，递增 -->
+        	<!-- <generator class="identity"></generator> MySQL 自动递增 -->
+        	<!-- <generator class="sequence"></generator> oracle 自动递增 -->
+        	<!-- <generator class="uuid"></generator> 自动生成 uuid 填充主键 -->     	
+        </id>
+		<property name="name" column="name"></property>
+		<property name="birthday" column="birthday"></property>
+		<property name="color">
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">kasei.hibernate.a01xml.b01orm.Color</param>    
+				<!-- <param name="type">4</param>   4 保存为数字类型 -->        
+            	<param name="type">12</param>  <!-- 12 保存为字符串类型 -->
+			</type>
+		</property>
+		<component name="dogProperties" class="kasei.hibernate.a01xml.b01orm.DogProperties">
+			<property name="color" column="prop_Color"></property>
+			<property name="age" column="age"></property>
+		</component>
+    </class>
+    
+    
+    <class name="Cat" table="a01b01_Cat">
+		<!-- 联合主键 -->
+		<composite-id name="pk" class="kasei.hibernate.a01xml.b01orm.CatPk">
+    		<key-property name="id" column="id"></key-property>
+    		<key-property name="name" column="name"></key-property>
+    	</composite-id>
+    	<property name="age" column="age"></property>
+    </class>
+    
+	
+</hibernate-mapping>

@@ -1,0 +1,2 @@
+Hibernate 查询：
+NativeSQL  >  HQL  >  EJBQL  >  QBC(query by criteria)  >  QBE(query by example)

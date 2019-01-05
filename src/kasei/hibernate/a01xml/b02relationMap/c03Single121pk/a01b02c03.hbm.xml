@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding='utf-8'?>
+<!--
+  ~ Hibernate, Relational Persistence for Idiomatic Java
+  ~
+  ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+  ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+  -->
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="a01xml.b02relationMap.c03Single121pk">
+
+    <class name="Husband" table="a01b02c03_Husband">
+        <id name="id" column="id">
+        	<generator class="foreign">
+        		<!-- 指定主键来源，id指的是wife表中的id -->
+        		<param name="property">id</param>        		
+        	</generator>
+        </id>
+        <property name="name" column="name"></property>
+		<one-to-one name="wife" class="a01xml.b02relationMap.c03Single121pk.Wife" constrained="true" cascade="all"></one-to-one>
+		<!-- name[本表中的外键关联列列名] class[外键连接的表] constrained[添加约束条件]-->
+	</class>
+    
+    <class name="Wife" table="a01b02c03_Wife">
+        <id name="id" column="id"></id>
+        <property name="name" column="name"></property>
+    </class>
+
+</hibernate-mapping>

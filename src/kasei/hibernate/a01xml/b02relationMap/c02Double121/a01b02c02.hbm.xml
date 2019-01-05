@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="a01xml.b02relationMap.c02Double121">
+
+    <class name="Husband" table="a01b02c02_Husband">
+        <id name="id" column="id"></id>
+        <property name="name" column="name"></property>
+		<many-to-one name="wife" column="wifeId" unique="true"></many-to-one>
+		<!-- wife 字段对应数据库表中 wifeId 列，该列是表 a01b02c01_Wife 主键的外键，且该列的值唯一 -->
+    </class>
+    
+    <class name="Wife" table="a01b02c02_Wife">
+        <id name="id" column="id"></id>
+        <property name="name" column="name"></property>
+		<one-to-one name="husband" property-ref="wife"></one-to-one>
+		<!-- 表示 husband 字段对应类 Husband 中的 wife 字段上已经建立了该关系映射，在此处不再建立关系映射  -->
+    </class>
+    	
+</hibernate-mapping>

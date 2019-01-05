@@ -1,0 +1,117 @@
+/**
+**************** 必须的.jar包 ******************************************
+slf4j-nop-1.7.7.jar
+./hibernate-release-5.2.6.Final/lib/required 文件夹下所有 .jar
+
+
+
+********************  Hibernate 知识点 总结 **********************************
+1、实体类和数据库表示怎么映射的，xml怎么配置，annotation怎么配置？
+@Entity @Table @Id @Column @Transient @Enumerated @Temporal @Basic
+
+2、联合主键在实体类中怎么写，跟数据库表示怎么映射的，xml怎么配置，annotation怎么配置？
+@EmbeddedId   
+@Embeddable @Id
+@IdClass @Id @Id
+
+3、联合主键类需要怎么写？
+必须实现 Serializable 接口，并覆盖 equals() 和 hashCode() 方法
+
+4、组件在实体类中怎么写，跟数据库表示怎么映射的，xml怎么配置，annotation怎么配置？
+@Embedded @AttributeOverrides @AttributeOverride
+
+5、hibernate.cfg.xml 基础配置
+<property name="show_sql">true</property>
+<property name="format_sql">true</property>
+<property name="hbm2ddl.auto">create</property>
+<property name="dialect">org.hibernate.dialect.Oracle10gDialect</property>
+数据库配置：
+<property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+<property name="connection.url">jdbc:oracle:thin:@127.0.0.1:1521:XE</property>
+<property name="connection.username">kasei</property>
+<property name="connection.password">kasei</property>
+
+6、单主键 ID Strategy
+@GeneratedValue
+@SequenceGenerator
+@TableGenerator
+
+7、hibernate 中实例的三种状态：
+transient(内存中有，session缓存中没有，数据库中没有，没有主键), 
+presistent（内存中有，session缓存中有，数据库中有，有主键）, 
+detached（内存中有，session缓存中没有，数据库中有，有主键）
+
+8、hibernate Core API
+openSession() 和 getCurrentSession() 区别是什么？
+
+9、session 的方法
+save()
+delete()
+load(), get()   这两个方法的区别是什么？
+update(), merge(), clear(), flush()
+
+10、关系映射(one2one, one2many, many2one, many2many)
+关系映射在数据库中是如何实现的？
+1:1 外键
+1:1 主键
+1:n n:1   什么是 1+N 问题
+m:n
+双向关系时要注意的点：mappedBy, 写程序的时候要把关系设好
+
+11、继承映射
+继承映射在数据库中是如何实现的，实现方式有几种？single table, class per table, join(共有字段存父类表，扩展字段存子类表)
+
+12、树状结构
+树状结构在数据库中是如可实现的？存一张表上 有 PID 列来指向父节点的 ID（主键）
+
+13、QL 种类
+nativeSQL > HQL > EJBQL > QBC > QBE 
+什么是QBC?什么是QBE?
+
+14、性能优化
+clear()
+什么是 1+N 问题，然后怎么解决？1+N问题是指在多对一关系中，取一组多的 一方会把关联对象都取出来，且每取一个关联对象都发1条QL语句。解决方法：fetch=lazy, @BatchSize, 直接用QL语言实现表的join连接
+采用list 还是  iterate
+设置二级缓存
+
+15、List Iterate 的区别？
+相当于get 和 load 的区别，list 取所有，iterate 取 ID 用到再去数据
+iterate 默认使用二级缓存
+list 默认往二级缓存中放数据，但是查询不会从二级缓存取数据
+
+16、缓存
+有几种缓存，分别是什么？3种，一级缓存（session）， 二级缓存（sessionFactory），查询缓存（Query，查询语句完全一样才有用）
+缓存算法：先进先出，最长时间不用，用的次数最少
+
+17、事务
+事务并发会出现什么问题？dirty read, unrepeatable read, phantom
+事务隔离级别有几种？read uncommited, read commited, repeatable read, serializeable
+为了效率一般设置哪种隔离级别，会出现什么问题，怎么解决？设置 read commited 级别，出现 unrepeatable read, phantom 问题，解决办法：乐观锁、悲观锁
+乐观锁的实现原理？在数据库表中加一个额外的 version 列，每次事务提交都会让version值+1，每次程序执行首尾都取version值，如果不一致表示其他事务改动过。
+乐观锁、悲观锁的区别是什么？区别是悲观锁靠数据库实现，乐观锁靠程序实现
+*/
+
+
+
+Hibernate 知识点：{
+	1、 entity 到 table 的映射
+	2、 数据库表之间关系在 java 类中的表示，以及对查询的影响
+	3、 java 中 List Map Set 在 数据库 中的映射
+	4、 java 中 Tree 在数据库中的映射
+	5、 java 中 继承结构 在数据库中的映射
+	6、 Hibernate 的增、删、改、查
+	7、 Hibernate 的缓存机制
+	7、 乐观锁的实现
+}
+
+/** 事务的概念及事务并发时存在的问题
+	 * 第一类丢失更新（lost update）：丢失事务B更新的数据
+	 * 事务A：开始事务     -> ****** -> ****** -> 更新数据 -> 回滚 
+	 * 事务B：****** -> 开始事务     -> 更新数据     -> commit
+	 * 
+	 * 脏读（dirty read）：读到了其他事务还没有提交的数据
+	 * 
+	 * 不可重复读（unrepeatable read）：指在同一个事务不同时间读相同的数据，两次读取结果不一致
+	 * 
+	 * 幻读（phantom read）：指在同一个事务不同时间读取表数据，两次数据库表中的记录数量不同
+	 * */
